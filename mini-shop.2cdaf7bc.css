@@ -1,0 +1,121 @@
+body {
+  background-color: #000;
+}
+
+.modal {
+  background: #00000080;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 10px;
+  width: 300px;
+  padding: 20px;
+  position: relative;
+}
+
+.close {
+  cursor: pointer;
+  float: right;
+  font-size: 20px;
+  transition: transform 5s;
+}
+
+.close:hover {
+  transform: rotate(360deg);
+}
+
+.hidden {
+  display: none;
+}
+
+.product-div {
+  justify-content: center;
+  align-items: center;
+  margin-top: 100px;
+  display: flex;
+}
+
+.product {
+  border-radius: 50px;
+  place-items: center;
+  gap: 40px;
+  display: flex;
+}
+
+.product-card {
+  background-color: #fff;
+  border-radius: 20px;
+  align-items: center;
+  gap: 40px;
+  padding: 30px;
+  display: flex;
+}
+
+.product-info {
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  display: flex;
+}
+
+.product-title, .product-price {
+  color: #000;
+  font-family: Science Gothic;
+}
+
+.product-photo {
+  border-radius: 10px;
+}
+
+.product-btn {
+  cursor: pointer;
+  background-color: #fff;
+  border: 2px solid #000;
+  border-radius: 20px;
+  margin: 0 auto 40px;
+  padding: 10px;
+  font-family: Science Gothic;
+  transition: all .3s;
+  display: block;
+}
+
+.product-btn:hover {
+  background-color: #d6d6d6;
+}
+
+.modal-open {
+  color: #fff;
+  cursor: pointer;
+  background-color: #000;
+  border: 2px solid #fff;
+  border-radius: 50px;
+  margin: 100px auto 40px;
+  padding: 20px;
+  font-family: Science Gothic;
+  font-size: 25px;
+  transition: all .3s;
+  display: block;
+}
+
+.modal-open:hover {
+  background-color: #282828;
+}
+
+.backet-title {
+  font-family: Science Gothic;
+  font-weight: bold;
+}
+
+.cart-items, .total {
+  font-family: Science Gothic;
+}
+/*# sourceMappingURL=mini-shop.2cdaf7bc.css.map */
