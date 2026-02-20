@@ -1,0 +1,123 @@
+body {
+    background-color: black;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  width: 300px;
+  border-radius: 10px;
+  position: relative;
+}
+
+.close {
+  cursor: pointer;
+  float: right;
+  font-size: 20px;
+  transition: transform 5s ease
+}
+.close:hover {
+  transform: rotate(360deg);
+}
+
+.hidden {
+  display: none;
+}
+.product-div {
+    margin-top: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.product {
+    display: flex;
+    align-items: center;      
+    gap: 40px; 
+    place-items: center;
+    align-items: center;
+    border-radius: 50px;
+}
+.product-card {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    background-color: rgb(255, 255, 255);
+    padding: 30px;
+    border-radius: 20px;
+}
+.product-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.product-title{
+    font-family: "Science Gothic";
+    color: rgb(0, 0, 0);
+}
+
+.product-price{
+    font-family: "Science Gothic";
+    color: rgb(0, 0, 0);
+}
+.product-photo{
+    border-radius: 10px;
+}
+.product-btn{
+    display: block;
+    border-radius: 20px;
+    border: 2px solid black;
+    background-color: white;
+    cursor: pointer;
+    margin: 0 auto;
+    margin-bottom: 40px;
+    font-family: "Science Gothic";
+    padding: 10px;
+    transition: all 0.3s ease;
+}
+.product-btn:hover{
+    background-color: rgb(214, 214, 214);
+}
+.modal-open {
+    display: block;
+    border-radius: 50px;
+    border: 2px solid rgb(255, 255, 255);
+    background-color: rgb(0, 0, 0);
+    color: white;
+    font-size: 25px;
+    cursor: pointer;
+    margin: 0 auto;
+    margin-bottom: 40px;
+    margin-top: 100px;
+    font-family: "Science Gothic";
+    padding: 20px;
+    transition: all 0.3s ease;
+}
+.modal-open:hover {
+    background-color: rgb(40, 40, 40);
+}
+
+
+.backet-title{
+    font-family: "Science Gothic";
+    font-weight: bold;
+}
+.cart-items{
+    font-family: "Science Gothic";
+}
+.total {
+    font-family: "Science Gothic";
+}

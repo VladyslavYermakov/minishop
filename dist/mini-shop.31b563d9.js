@@ -717,6 +717,7 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 var _data = require("./js/data");
 var _render = require("./js/render");
 var _cart = require("./js/cart");
+(0, _cart.renderCart)();
 (0, _render.renderItem)((0, _data.products));
 (0, _cart.initCart)((0, _data.products));
 
@@ -729,19 +730,22 @@ const products = [
         id: 1,
         title: "\u041D\u0430\u0432\u0443\u0448\u043D\u0438\u043A\u0438",
         price: 1200,
-        category: "tech"
+        category: "tech",
+        photo: "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcRxTgO5gJK-r6yYR2gzXTaejbTvn11xBFirT6MWyVlx0V1EPyxo2I81HrLWaMLqB6DvSBW1QSlifcEG2OFUaGnmOIE9_PSz-Z5zAs3TgaM8-9yEN4ziKGDDgX0"
     },
     {
         id: 2,
         title: "\u0424\u0443\u0442\u0431\u043E\u043B\u043A\u0430",
         price: 700,
-        category: "clothes"
+        category: "clothes",
+        photo: "https://www.adverti.ru/media/catalog/product/1/6/16614.30_14.jpg"
     },
     {
         id: 3,
         title: "\u0421\u043C\u0430\u0440\u0442-\u0433\u043E\u0434\u0438\u043D\u043D\u0438\u043A",
         price: 2500,
-        category: "tech"
+        category: "tech",
+        photo: "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcSKShN6qcn_IgQl7cPnDveAiJlemzVejvvsXsNs9tl83j8zxY6o-_L-_DWaz3ZxOwodxHDu-siSPVnEqjTeX8KxDerkkDh2sRxB_2QUvwoG20ah0Uxr3XG2Yg"
     }
 ];
 
@@ -784,10 +788,13 @@ const renderItem = function(products) {
     productContainer.innerHTML = "";
     products.forEach((product)=>{
         productContainer.innerHTML += `
-        <div class="product">
-            <h3>${product.title}</h3>
-            <p>${product.price}</p>
-            <button data-id="${product.id}">\u{41A}\u{443}\u{43F}\u{438}\u{442}\u{438}</button>
+        <div class="product-card">
+            <img src="${product.photo}" width="200" height="200" class="product-photo">
+            <div class="product-info">
+                <h3 class="product-title">${product.title}</h3>
+                <p class="product-price">${product.price} UAH</p>
+                <button data-id="${product.id}" class="product-btn">\u{41A}\u{443}\u{43F}\u{438}\u{442}\u{438}</button>
+            </div>
         </div>
         `;
     });
@@ -796,19 +803,73 @@ const renderItem = function(products) {
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"j7uuE":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "renderCart", ()=>renderCart);
 parcelHelpers.export(exports, "initCart", ()=>initCart);
+const STORAGE_KEY = "cart";
+const cartItemsContainer = document.querySelector(".cart-items");
+const tatalContainer = document.querySelector(".total");
+const openCart = document.querySelector("#openCart");
+const cartModal = document.querySelector("#cartModal");
+const closeBtn = document.querySelector(".close");
+//збереження на локал сторейдж
+function saveCart() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
+}
+//завантаження з локал сторейдж
+function loadCart() {
+    const savedStorage = localStorage.getItem(STORAGE_KEY);
+    if (!savedStorage) return;
+    cart = JSON.parse(savedStorage);
+}
 let cart = [];
+const renderCart = function() {
+    cartItemsContainer.innerHTML = "";
+    if (cart.length === 0) {
+        cartItemsContainer.innerHTML = "<p>\u043A\u043E\u0448\u0438\u043A \u043F\u043E\u0440\u043E\u0436\u043D\u0456\u0439</p>";
+        tatalContainer.innerHTML = "";
+        return;
+    }
+    cart.forEach((item)=>{
+        cartItemsContainer.innerHTML += `
+            <p>${item.title} <br> \u{426}\u{456}\u{43D}\u{430}: ${item.price} UAH <br> \u{41A}\u{456}\u{43B}\u{44C}\u{43A}\u{456}\u{441}\u{442}\u{44C}: ${item.quantity}</p>
+        `;
+    });
+    let total = cart.reduce((s, item)=>{
+        return s + item.price * item.quantity;
+    }, 0);
+    tatalContainer.textContent = `\u{417}\u{430}\u{433}\u{430}\u{43B}\u{44C}\u{43D}\u{430} \u{432}\u{430}\u{440}\u{442}\u{456}\u{441}\u{442}\u{44C}: ${total} uah`;
+};
 const initCart = function(products) {
-    const productContainer = document.querySelector(".product");
+    loadCart();
+    const productContainer = document.querySelector('.product');
     productContainer.addEventListener('click', (e)=>{
         if (e.target.tagName !== "BUTTON") return;
         const id = Number(e.target.dataset.id);
-        products.forEach((product)=>{
-            if (product.id === id) cart.push(product);
+        const product = products.find((p)=>p.id === id);
+        if (!product) return;
+        const isExist = cart.find((i)=>i.id === id);
+        if (isExist) isExist.quantity += 1;
+        else cart.push({
+            ...product,
+            quantity: 1
         });
-        console.log(cart);
+        saveCart();
+        renderCart();
+    // console.log(cart)
     });
 };
+// логіка відкриття закриття модалки
+openCart.addEventListener('click', ()=>{
+    cartModal.classList.remove("hidden");
+    renderCart() //відмальовує модалку
+    ;
+});
+closeBtn.addEventListener('click', ()=>{
+    cartModal.classList.add("hidden");
+});
+cartModal.addEventListener("click", (e)=>{
+    if (e.target === cartModal) cartModal.classList.add("hidden");
+});
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}]},["5j6Kf","a0t4e"], "a0t4e", "parcelRequire18d9", {})
 
